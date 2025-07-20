@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -29,6 +30,9 @@
                 <div class="orrery-core"></div>
                 <!-- Site nodes will be injected here by JavaScript -->
             </div>
+            <div id="map-container">
+                <div id="map"></div>
+            </div>
         </section>
 
         <!-- Detail view, hidden by default -->
@@ -50,6 +54,8 @@
 
     </main>
 
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="script.js"></script>
+    <script src="map.js"></script>
 </body>
 </html>
