@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bulgarian Heritage | A UNESCO Collection</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- The dynamic background element -->
+    <div class="background-canvas">
+        <div class="geometric-pattern"></div>
+    </div>
+
+    <!-- Main container that manages the view state -->
+    <main id="app-container">
+
+        <!-- Initial view with the interactive orrery -->
+        <section id="orrery-view">
+            <header class="main-header">
+                <h1>Bulgarian Heritage</h1>
+                <p>A UNESCO COLLECTION</p>
+            </header>
+            <div id="heritage-orrery">
+                <div class="orrery-core"></div>
+                <!-- Site nodes will be injected here by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Detail view, hidden by default -->
+        <section id="detail-view">
+            <button class="back-button" aria-label="Go back to selection">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            </button>
+            <div class="detail-content">
+                <div class="detail-image-container">
+                    <!-- Image will be set here -->
+                </div>
+                <div class="detail-text">
+                    <h2 id="detail-title"></h2>
+                    <p id="detail-category"></p>
+                    <p id="detail-description"></p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
