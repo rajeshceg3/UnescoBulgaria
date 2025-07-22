@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('detail-title').textContent = site.name;
         document.getElementById('detail-category').textContent = site.category;
         document.getElementById('detail-description').textContent = site.description;
-        document.querySelector('.detail-image-container').style.backgroundImage = `url('${site.svg}')`;
+        document.querySelector('.detail-image-container').style.backgroundImage = `url('${site.image}')`;
 
         // Update background
         backgroundCanvas.style.background = site.gradient;
