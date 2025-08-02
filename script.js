@@ -1,3 +1,6 @@
+// Create a global namespace for the application
+window.unescoApp = {};
+
 document.addEventListener('DOMContentLoaded', () => {
 
     const SITES_DATA = [
@@ -63,6 +66,9 @@ document.addEventListener('DOMContentLoaded', () => {
         },
     ];
 
+    // Expose SITES_DATA to the global app object
+    window.unescoApp.SITES_DATA = SITES_DATA;
+
     const orrery = document.getElementById('heritage-orrery');
     const body = document.body;
     const backgroundCanvas = document.querySelector('.background-canvas');
@@ -85,9 +91,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const x = radius * Math.cos(angle);
             const y = radius * Math.sin(angle);
 
-            const node = document.createElement('div');
+            const node = document.createElement('button');
             node.className = 'site-node';
             node.dataset.id = site.id;
+            node.setAttribute('aria-label', site.name);
             node.style.transform = `translate(${x}px, ${y}px)`;
 
             const label = document.createElement('span');
@@ -99,27 +106,87 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    const contributionForm = document.getElementById('contribution-form');
+    let currentSiteId = null;
+
+    // --- Sanitization ---
+    function sanitize(str) {
+        const temp = document.createElement('div');
+        temp.textContent = str;
+        return temp.innerHTML;
+    }
+
+    // --- Community Stories ---
+    function renderStories(siteId) {
+        const container = document.getElementById('contributions-container');
+        const stories = JSON.parse(localStorage.getItem(`stories_${siteId}`)) || [];
+        container.innerHTML = '';
+
+        if (stories.length === 0) {
+            container.innerHTML = '<p>Be the first to share a story about this place!</p>';
+            return;
+        }
+
+        stories.forEach(story => {
+            const storyEl = document.createElement('div');
+            storyEl.className = 'story';
+            storyEl.innerHTML = `
+                <h4>${sanitize(story.name)}</h4>
+                <p>${sanitize(story.story)}</p>
+                ${story.image ? `<img src="${sanitize(story.image)}" alt="Contribution by ${sanitize(story.name)}" style="max-width: 100%; border-radius: 8px; margin-top: 10px;">` : ''}
+            `;
+            container.appendChild(storyEl);
+        });
+    }
+
+    function handleFormSubmit(e) {
+        e.preventDefault();
+        const name = document.getElementById('contribution-name').value;
+        const story = document.getElementById('contribution-story').value;
+        const image = document.getElementById('contribution-image').value;
+
+        const newStory = { name, story, image };
+        const stories = JSON.parse(localStorage.getItem(`stories_${currentSiteId}`)) || [];
+        stories.push(newStory);
+        localStorage.setItem(`stories_${currentSiteId}`, JSON.stringify(stories));
+
+        renderStories(currentSiteId);
+        contributionForm.reset();
+    }
+
     // --- Event Listeners ---
     function addEventListeners() {
         orrery.addEventListener('click', (e) => {
             if (e.target.classList.contains('site-node')) {
-                showDetailView(e.target.dataset.id);
+                window.unescoApp.showDetailView(e.target.dataset.id);
             }
         });
 
-        backButton.addEventListener('click', hideDetailView);
+        backButton.addEventListener('click', window.unescoApp.hideDetailView);
+        contributionForm.addEventListener('submit', handleFormSubmit);
     }
     
     // --- View Transitions ---
-    function showDetailView(siteId) {
+    window.unescoApp.showDetailView = function(siteId) {
         const site = SITES_DATA.find(s => s.id === siteId);
         if (!site) return;
+
+        currentSiteId = siteId;
 
         // Populate detail view
         document.getElementById('detail-title').textContent = site.name;
         document.getElementById('detail-category').textContent = site.category;
         document.getElementById('detail-description').textContent = site.description;
-        document.querySelector('.detail-image-container').style.backgroundImage = `url('${site.image}')`;
+
+        const detailImageContainer = document.querySelector('.detail-image-container');
+        const img = new Image();
+        img.src = site.image;
+        img.onload = () => {
+            detailImageContainer.style.backgroundImage = `url('${site.image}')`;
+        };
+        img.onerror = () => {
+            detailImageContainer.style.backgroundImage = `url('assets/svg/placeholder.svg')`; // Fallback image
+        };
 
         // Update background
         backgroundCanvas.style.background = site.gradient;
@@ -131,9 +198,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const mapContainer = document.getElementById('map-container');
         mapContainer.style.opacity = 1;
         mapContainer.style.transform = 'translateY(0)';
+
+        // Render stories
+        renderStories(siteId);
     }
 
-    function hideDetailView() {
+    window.unescoApp.hideDetailView = function() {
          // Reset background
         backgroundCanvas.style.background = defaultGradient;
         
@@ -147,4 +217,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     init();
+
+    window.onload = () => {
+        document.body.classList.add('loaded');
+    };
 });
