@@ -5,11 +5,11 @@ document.addEventListener('DOMContentLoaded', () => {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 
-    SITES_DATA.forEach(site => {
+    window.unescoApp.SITES_DATA.forEach(site => {
         const marker = L.marker(site.coords).addTo(map);
         marker.bindPopup(`<b>${site.name}</b><br>${site.category}`);
         marker.on('click', () => {
-            showDetailView(site.id);
+            window.unescoApp.showDetailView(site.id);
         });
     });
 });
