@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.unescoApp.SITES_DATA.forEach(site => {
         const marker = L.marker(site.coords).addTo(map);
-        marker.bindPopup(`<b>${site.name}</b><br>${site.category}`);
+        marker.bindPopup(`<b>${site.name}</b><br>${site.type}`);
         marker.on('click', () => {
             window.unescoApp.showDetailView(site.id);
         });
