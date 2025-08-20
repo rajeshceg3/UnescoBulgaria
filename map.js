@@ -6,8 +6,29 @@ document.addEventListener('DOMContentLoaded', () => {
     }).addTo(map);
 
     window.unescoApp.SITES_DATA.forEach(site => {
-        const marker = L.marker(site.coords).addTo(map);
+        const marker = L.marker(site.coords, {
+            alt: site.name // Add alt text for screen readers
+        }).addTo(map);
+
         marker.bindPopup(`<b>${site.name}</b><br>${site.type}`);
+
+        // --- Accessibility Enhancement ---
+        // Make the marker focusable and announce its purpose
+        const icon = marker.getElement();
+        if (icon) {
+            icon.setAttribute('tabindex', '0');
+            icon.setAttribute('role', 'button');
+            icon.setAttribute('aria-label', `View details for ${site.name}`);
+
+            // Trigger click on Enter or Space key press
+            marker.on('keydown', (e) => {
+                if (e.originalEvent.key === 'Enter' || e.originalEvent.key === ' ') {
+                    window.unescoApp.showDetailView(site.id);
+                }
+            });
+        }
+        // --- End Accessibility Enhancement ---
+
         marker.on('click', () => {
             window.unescoApp.showDetailView(site.id);
         });

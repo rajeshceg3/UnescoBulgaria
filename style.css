@@ -285,29 +285,30 @@ body.detail-active #map-container {
 	width: 100%;
 	height: 70vh;
 	border-radius: 25px;
-	background-size: cover;
-	background-position: center;
-	background-repeat: no-repeat;
 	box-shadow: 0 25px 60px rgba(0, 0, 0, 0.2);
 	transform: perspective(1000px) rotateY(-20deg) scale(0.9);
 	opacity: 0;
 	transition: all calc(var(--transition-speed) * 1.8) var(--transition-timing);
 	will-change: transform, opacity;
-	animation: ken-burns 30s infinite;
+    overflow: hidden; /* Keep the image contained within the rounded corners */
+}
+
+.detail-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Replicates background-size: cover */
+    animation: ken-burns 30s infinite;
 }
 
 @keyframes ken-burns {
 	0% {
-		background-size: 100%;
-		background-position: center center;
+		transform: scale(1) translate(0, 0);
 	}
 	50% {
-		background-size: 110%;
-		background-position: top left;
+		transform: scale(1.1) translate(-5%, -5%);
 	}
 	100% {
-		background-size: 100%;
-		background-position: center center;
+		transform: scale(1) translate(0, 0);
 	}
 }
 
@@ -327,13 +328,14 @@ body.detail-active #map-container {
 	text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.15);
 }
 
-#detail-category {
+#detail-type {
 	font-size: clamp(1rem, 1.5vw, 1.3rem);
 	font-weight: 300;
 	letter-spacing: 0.35em;
 	text-transform: uppercase;
 	color: var(--color-text-secondary);
-	margin-bottom: 40px;
+	margin-bottom: 20px;
+    margin-top: -15px; /* Adjust spacing */
 }
 
 #detail-description {
