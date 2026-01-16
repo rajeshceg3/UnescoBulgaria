@@ -61,4 +61,9 @@ document.addEventListener('DOMContentLoaded', () => {
         // For this polished version, we rely on the main UI for accessibility
         // but let's keep the map usable.
     });
+
+    // Handle resize to keep map rendering correct
+    window.addEventListener('resize', () => {
+        map.invalidateSize();
+    });
 });

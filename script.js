@@ -97,21 +97,53 @@ document.addEventListener('DOMContentLoaded', () => {
     window.unescoApp.SITES_DATA = SITES_DATA;
 
     const orrery = document.getElementById('heritage-orrery');
+    const mobileCardsView = document.getElementById('mobile-cards-view');
     const body = document.body;
     const backgroundCanvas = document.querySelector('.background-canvas');
     const backButton = document.querySelector('.back-button');
+    const cursor = document.getElementById('custom-cursor');
     const defaultGradient = 'radial-gradient(circle at center, #1e293b, #0f172a)';
 
     // --- Initialization ---
     function init() {
         createSiteNodes();
+        createMobileCards();
+        initCustomCursor();
         addEventListeners();
     }
 
-    // --- Create Orrery Nodes ---
+    // --- Custom Cursor ---
+    function initCustomCursor() {
+        if (!cursor) return;
+
+        // Mouse Move
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // Hover Interactions
+        const interactiveElements = document.querySelectorAll('a, button, .site-node, .mobile-card, input, textarea');
+        interactiveElements.forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+        });
+
+        // Dynamic binding for future elements?
+        // We might need a mutation observer or just delegate.
+        document.body.addEventListener('mouseover', (e) => {
+             if (e.target.closest('a, button, .site-node, .mobile-card, .leaflet-marker-icon')) {
+                 cursor.classList.add('hovered');
+             } else {
+                 cursor.classList.remove('hovered');
+             }
+        });
+    }
+
+    // --- Create Orrery Nodes (Desktop) ---
     function createSiteNodes() {
         // Create decorative rings
-        const radii = [130, 210, 280];
+        const radii = [140, 220, 300];
         radii.forEach(r => {
             const ring = document.createElement('div');
             ring.className = 'orbit-ring';
@@ -120,13 +152,17 @@ document.addEventListener('DOMContentLoaded', () => {
             orrery.appendChild(ring);
         });
 
-        const orbitRadius = 170; // Main Orbit radius
+        const orbitRadius = 180; // Main Orbit radius
         const angleStep = (2 * Math.PI) / SITES_DATA.length;
 
         SITES_DATA.forEach((site, index) => {
             const angle = angleStep * index;
-            const x = orbitRadius * Math.cos(angle);
-            const y = orbitRadius * Math.sin(angle);
+            // Add some variation so they aren't perfectly circular (optional natural feel)
+            const variation = (index % 2 === 0 ? 10 : -10);
+            const r = orbitRadius + variation;
+
+            const x = r * Math.cos(angle);
+            const y = r * Math.sin(angle);
 
             const node = document.createElement('button');
             node.className = 'site-node';
@@ -140,6 +176,29 @@ document.addEventListener('DOMContentLoaded', () => {
             node.appendChild(label);
             
             orrery.appendChild(node);
+        });
+    }
+
+    // --- Create Mobile Cards ---
+    function createMobileCards() {
+        SITES_DATA.forEach(site => {
+            const card = document.createElement('div');
+            card.className = 'mobile-card';
+            card.dataset.id = site.id;
+            card.style.backgroundImage = `url(${site.image})`;
+
+            card.innerHTML = `
+                <div class="mobile-card-content">
+                    <h3>${site.name}</h3>
+                    <span>${site.type} • ${site.year_inscribed}</span>
+                </div>
+            `;
+
+            card.addEventListener('click', () => {
+                window.unescoApp.showDetailView(site.id);
+            });
+
+            mobileCardsView.appendChild(card);
         });
     }
 
@@ -160,7 +219,7 @@ document.addEventListener('DOMContentLoaded', () => {
         container.innerHTML = '';
 
         if (stories.length === 0) {
-            container.innerHTML = '<p>Be the first to share a story about this place!</p>';
+            container.innerHTML = '<p style="color:var(--color-text-muted)">Be the first to share a story about this place!</p>';
             return;
         }
 
@@ -220,7 +279,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('detail-link').href = site.official_link;
 
         const detailImage = document.getElementById('detail-image');
-        // Use high-res images if available, otherwise placeholder
         detailImage.src = site.image;
         detailImage.alt = `A view of the ${site.name}`;
 
@@ -230,28 +288,19 @@ document.addEventListener('DOMContentLoaded', () => {
         // Add class to trigger transition
         body.classList.add('detail-active');
 
-        // Show map (but styled nicely via CSS)
-        const mapContainer = document.getElementById('map-container');
-        // We let CSS handle the transition logic for map-container via detail-active class
-        // But the current JS sets opacity manually, which might conflict.
-        // Let's remove manual style setting here and rely on CSS classes if possible.
-        // However, map.js logic might rely on map being visible for size calculation.
-        // Just in case, let's keep it but ensure it matches CSS.
-        // Actually, let's REMOVE the manual style manipulation for map container here
-        // and let CSS handle it via .detail-active
+        // Scroll detail view to top
+        const detailText = document.querySelector('.detail-text');
+        if (detailText) detailText.scrollTop = 0;
 
-        // renderStories(siteId);
         renderStories(siteId);
     }
 
     window.unescoApp.hideDetailView = function() {
-         // Reset background
+        // Reset background
         backgroundCanvas.style.background = defaultGradient;
         
         // Remove class to reverse transition
         body.classList.remove('detail-active');
-
-        // Map hiding is also handled by CSS now (hopefully)
     }
 
     init();
