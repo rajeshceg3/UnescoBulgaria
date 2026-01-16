@@ -1,18 +1,27 @@
 :root {
-    --color-bg-start: #0f172a; /* Slate 900 */
-    --color-bg-end: #1e293b;   /* Slate 800 */
-    --color-text-primary: #f8fafc; /* Slate 50 */
-    --color-text-secondary: #cbd5e1; /* Slate 300 */
-    --color-accent: #d4af37;   /* Metallic Gold */
-    --color-accent-glow: rgba(212, 175, 55, 0.4);
-    --color-glass: rgba(30, 41, 59, 0.7);
-    --color-glass-border: rgba(255, 255, 255, 0.1);
+    /* === PALETTE: DARK LUXURY === */
+    --color-bg-deep: #050505;       /* Almost black */
+    --color-bg-start: #0f172a;      /* Deep Slate */
+    --color-bg-end: #020617;        /* Darker Slate */
 
+    --color-text-primary: #f8fafc;  /* White-ish */
+    --color-text-secondary: #94a3b8;/* Muted Slate */
+    --color-text-muted: #64748b;    /* Darker Muted */
+
+    --color-accent: #c0a062;        /* Classic Gold */
+    --color-accent-hover: #eecf85;  /* Lighter Gold */
+    --color-accent-glow: rgba(192, 160, 98, 0.3);
+
+    --color-glass: rgba(15, 23, 42, 0.6);
+    --color-glass-border: rgba(255, 255, 255, 0.08);
+    --color-surface: #1e293b;
+
+    /* === TYPOGRAPHY === */
     --font-heading: 'Playfair Display', serif;
     --font-body: 'Poppins', sans-serif;
 
-    --transition-speed: 0.8s;
-    --transition-timing: cubic-bezier(0.2, 0.8, 0.2, 1); /* Ease-out quart-ish */
+    --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+    --ease-elastic: cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 * {
@@ -23,22 +32,63 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
-body {
-    font-family: var(--font-body);
-    background-color: var(--color-bg-start);
-    color: var(--color-text-primary);
-    height: 100vh;
-    overflow: hidden; /* Prevent scrolling on desktop main view */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: default; /* We might add a custom cursor later */
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* Main container manages overflow */
 }
 
-/* === CUSTOM CURSOR (Optional Polish) === */
-/* Implementing a simple CSS cursor for links */
-a, button, .site-node, .back-button {
-    cursor: pointer;
+body {
+    font-family: var(--font-body);
+    background-color: var(--color-bg-deep);
+    color: var(--color-text-primary);
+    cursor: default;
+}
+
+/* === NOISE TEXTURE === */
+.noise-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9998; /* Below loader, above content */
+    opacity: 0.07;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* === CUSTOM CURSOR (Desktop Only) === */
+@media (min-width: 901px) {
+    body {
+        cursor: none;
+    }
+
+    a, button, .site-node, .leaflet-interactive {
+        cursor: none; /* Hide default cursor on interactive elements too */
+    }
+
+    #custom-cursor {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 20px;
+        height: 20px;
+        border: 1px solid var(--color-accent);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 10000;
+        transform: translate(-50%, -50%);
+        transition: width 0.3s, height 0.3s, background-color 0.3s;
+        mix-blend-mode: difference;
+    }
+
+    #custom-cursor.hovered {
+        width: 50px;
+        height: 50px;
+        background-color: rgba(192, 160, 98, 0.2);
+        border-color: transparent;
+    }
 }
 
 /* === LOADER === */
@@ -48,7 +98,7 @@ a, button, .site-node, .back-button {
     left: 0;
     width: 100%;
     height: 100%;
-    background: var(--color-bg-start);
+    background: var(--color-bg-deep);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -57,13 +107,12 @@ a, button, .site-node, .back-button {
 }
 
 .spinner {
-    width: 60px;
-    height: 60px;
-    border: 2px solid rgba(255, 255, 255, 0.1);
+    width: 50px;
+    height: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-top-color: var(--color-accent);
     border-radius: 50%;
-    animation: spin 1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-    box-shadow: 0 0 20px var(--color-accent-glow);
+    animation: spin 1s var(--ease-out-quart) infinite;
 }
 
 @keyframes spin {
@@ -75,7 +124,7 @@ body.loaded #loader {
     pointer-events: none;
 }
 
-/* === BACKGROUND & PATTERN === */
+/* === BACKGROUND === */
 .background-canvas {
     position: fixed;
     top: 0;
@@ -83,102 +132,101 @@ body.loaded #loader {
     width: 100%;
     height: 100%;
     z-index: -1;
-    background: radial-gradient(circle at center, var(--color-bg-end), var(--color-bg-start));
+    background: radial-gradient(circle at center, var(--color-bg-start), var(--color-bg-deep));
 }
 
 .geometric-pattern {
+    /* More subtle, abstract pattern */
     position: absolute;
     width: 100%;
     height: 100%;
-    /* Subtle dot pattern */
-    background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
-    background-size: 30px 30px;
-    opacity: 0.3;
-    animation: background-drift 120s linear infinite;
+    background-image:
+        radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        radial-gradient(rgba(255, 255, 255, 0.02) 2px, transparent 2px);
+    background-size: 40px 40px, 100px 100px;
+    background-position: 0 0, 20px 20px;
+    opacity: 0.5;
 }
 
-@keyframes background-drift {
-    0% { background-position: 0 0; }
-    100% { background-position: 30px 30px; }
-}
-
-/* === APP CONTAINER === */
+/* === APP STRUCTURE === */
 #app-container {
     width: 100%;
     height: 100%;
     position: relative;
-    overflow: hidden;
+    /* overflow: hidden; Removed to allow better mobile handling */
 }
 
-/* === SECTIONS === */
+/* Sections */
 #orrery-view, #detail-view {
     position: absolute;
     width: 100%;
     height: 100%;
-    transition: opacity var(--transition-speed) var(--transition-timing),
-                transform var(--transition-speed) var(--transition-timing),
-                visibility var(--transition-speed);
+    top: 0;
+    left: 0;
+    transition: all 0.8s var(--ease-out-quart);
 }
 
-/* === ORRERY VIEW (DESKTOP) === */
+/* === ORRERY (DESKTOP) === */
+/* Hide mobile view on desktop */
+#mobile-cards-view {
+    display: none;
+}
+
 #orrery-view {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     z-index: 10;
-    pointer-events: none; /* Let clicks pass through to map */
 }
 
 .main-header {
     text-align: center;
-    position: relative;
+    position: absolute;
+    top: 10%;
+    width: 100%;
     z-index: 20;
-    margin-bottom: 4vh;
-    animation: fadeSlideDown 1.5s var(--transition-timing) forwards;
-    pointer-events: auto; /* Re-enable clicks */
+    pointer-events: none;
 }
 
 .main-header h1 {
     font-family: var(--font-heading);
-    font-size: clamp(3rem, 6vw, 5rem);
+    font-size: clamp(3rem, 5vw, 6rem);
     font-weight: 400;
-    letter-spacing: 0.05em;
-    background: linear-gradient(to right, #fff, #cbd5e1);
+    letter-spacing: -0.02em;
+    background: linear-gradient(to bottom, #fff 20%, #94a3b8 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     margin-bottom: 0.2em;
+    text-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
 .main-header p {
-    font-size: clamp(0.8rem, 1.5vw, 1rem);
-    letter-spacing: 0.4em;
+    font-size: 0.85rem;
+    letter-spacing: 0.5em;
     text-transform: uppercase;
     color: var(--color-accent);
-    opacity: 0.9;
+    opacity: 0.8;
 }
 
 #heritage-orrery {
     position: relative;
-    width: 50vh;
-    height: 50vh;
-    max-width: 500px;
-    max-height: 500px;
+    width: 60vh;
+    height: 60vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    /* Subtle rotation of the entire system */
-    animation: orbit-system 240s linear infinite;
-    pointer-events: auto; /* Re-enable interactions */
+    perspective: 1000px; /* Slight 3D feel */
 }
 
-/* The central sun/core */
+/* The Sun/Core */
 .orrery-core {
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%, #fff, var(--color-accent));
-    box-shadow: 0 0 50px var(--color-accent-glow), inset 0 0 20px rgba(255,255,255,0.8);
+    background: #000;
+    border: 1px solid var(--color-accent);
+    box-shadow: 0 0 30px var(--color-accent-glow);
     position: absolute;
     top: 50%;
     left: 50%;
@@ -186,80 +234,67 @@ body.loaded #loader {
     z-index: 10;
 }
 
-/* Orbit rings */
+.orrery-core::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200%;
+    height: 200%;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(circle, var(--color-accent-glow) 0%, transparent 70%);
+    opacity: 0.5;
+}
+
+/* Rings */
 .orbit-ring {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.03);
     border-radius: 50%;
     pointer-events: none;
 }
 
+/* Nodes */
 .site-node {
     position: absolute;
     top: 50%;
     left: 50%;
-    margin: -8px; /* Center the node itself (16px / 2) */
-    width: 16px;
-    height: 16px;
+    width: 12px;
+    height: 12px;
+    margin: -6px;
     background: #fff;
     border-radius: 50%;
-    cursor: pointer;
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
     border: none;
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    z-index: 20;
-}
-
-/* Counter-rotate the nodes so labels stay upright if we were rotating the container,
-   but here we might just rotate the container. Actually, if we rotate the container,
-   labels will spin. Better UX: Keep nodes static relative to screen,
-   or counter-rotate. For now, let's keep the slow rotation but make labels appear on hover. */
-
-.site-node::after {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    border-radius: 50%;
-    border: 1px solid var(--color-accent);
-    opacity: 0;
-    transform: scale(0.5);
-    transition: all 0.3s ease;
+    z-index: 30;
+    transition: transform 0.4s var(--ease-elastic);
+    box-shadow: 0 0 10px rgba(255,255,255,0.5);
 }
 
 .site-node:hover {
-    transform: scale(1.5);
+    transform: scale(2);
     background: var(--color-accent);
-    box-shadow: 0 0 25px var(--color-accent);
-}
-
-.site-node:hover::after {
-    opacity: 1;
-    transform: scale(1);
+    box-shadow: 0 0 20px var(--color-accent);
 }
 
 .node-label {
     position: absolute;
     left: 50%;
-    bottom: 25px; /* Above the node */
+    top: -40px;
     transform: translateX(-50%) translateY(10px);
-    background: rgba(15, 23, 42, 0.9);
-    color: var(--color-text-primary);
-    padding: 6px 12px;
-    border-radius: 4px;
-    font-size: 14px;
+    background: rgba(0,0,0,0.8);
+    color: var(--color-accent);
+    border: 1px solid var(--color-glass-border);
+    padding: 8px 16px;
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
     white-space: nowrap;
     opacity: 0;
-    pointer-events: none;
     transition: all 0.3s ease;
-    border: 1px solid rgba(255,255,255,0.1);
-    font-family: var(--font-heading);
-    letter-spacing: 0.05em;
+    pointer-events: none;
+    backdrop-filter: blur(4px);
 }
 
 .site-node:hover .node-label {
@@ -267,37 +302,22 @@ body.loaded #loader {
     transform: translateX(-50%) translateY(0);
 }
 
-/* === MAP CONTAINER === */
+/* === MAP INTEGRATION === */
 #map-container {
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 35vh;
-    opacity: 0; /* Hidden by default in Orrery view unless we want it visible */
-    /* Let's make it visible but subtle in Orrery view?
-       Actually, the plan said "Integrate the map better".
-       Let's keep it fixed at the bottom but styled nicely.
-    */
-    transform: translateY(20px);
-    transition: all var(--transition-speed) var(--transition-timing);
+    height: 40vh; /* Taller map */
     z-index: 5;
-    background: linear-gradient(to top, var(--color-bg-start), transparent);
-    pointer-events: none; /* Pass through clicks to background if empty */
+    mask-image: linear-gradient(to bottom, transparent 0%, black 40%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 40%);
+    opacity: 0.6;
+    transition: opacity 0.5s ease;
 }
 
-/* Make map interactive only when needed or if we change the design.
-   For now, let's keep the original logic: hidden until detail view?
-   Original: hidden. New plan: "Integrate it better... maybe as a background layer".
-   Let's try making it a subtle footer in Orrery view.
-*/
-#map-container {
+#map-container:hover {
     opacity: 1;
-    transform: translateY(0);
-    height: 30vh;
-    mask-image: linear-gradient(to bottom, transparent, black 20%);
-    -webkit-mask-image: linear-gradient(to bottom, transparent, black 20%);
-    pointer-events: all;
 }
 
 #map {
@@ -306,389 +326,404 @@ body.loaded #loader {
     background: transparent;
 }
 
-/* Custom Tooltip for Map */
+/* Map Tooltip Polish */
 .custom-map-tooltip {
-    background: var(--color-bg-start);
+    background: var(--color-bg-deep);
     border: 1px solid var(--color-accent);
     color: var(--color-text-primary);
-    font-family: var(--font-body);
-    font-size: 12px;
-    border-radius: 4px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    font-family: var(--font-heading);
+    padding: 5px 10px;
 }
-.leaflet-tooltip-top:before {
-    border-top-color: var(--color-accent);
-}
+.leaflet-tooltip-top:before { border-top-color: var(--color-accent); }
 
-/* === DETAIL VIEW === */
+/* === DETAIL VIEW (DESKTOP) === */
 #detail-view {
+    z-index: 50;
+    background: var(--color-bg-deep);
     opacity: 0;
     visibility: hidden;
-    z-index: 20;
-    background: rgba(15, 23, 42, 0.95); /* High opacity backdrop */
-    backdrop-filter: blur(10px);
-    overflow-y: auto; /* Allow scrolling */
+    transform: scale(1.05);
 }
 
 body.detail-active #detail-view {
     opacity: 1;
     visibility: visible;
-}
-
-body.detail-active #orrery-view {
-    transform: scale(0.95);
-    opacity: 0;
-    pointer-events: none;
+    transform: scale(1);
 }
 
 .back-button {
     position: fixed;
-    top: 40px;
-    left: 40px;
-    width: 50px;
-    height: 50px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    top: 30px;
+    right: 30px; /* Moved to right for editorial feel */
+    width: 60px;
+    height: 60px;
+    border: 1px solid rgba(255,255,255,0.1);
     border-radius: 50%;
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0,0,0,0.2);
     color: #fff;
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 100;
+    backdrop-filter: blur(10px);
     transition: all 0.3s ease;
-    z-index: 50;
-    backdrop-filter: blur(5px);
 }
 
 .back-button:hover {
     border-color: var(--color-accent);
-    color: var(--color-accent);
-    transform: scale(1.1);
+    transform: rotate(90deg);
 }
 
 .detail-content {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 100px 5vw;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
-    align-items: start;
-    min-height: 100vh;
+    grid-template-columns: 45% 55%;
+    height: 100vh;
 }
 
 .detail-image-container {
-    position: sticky;
-    top: 100px;
-    width: 100%;
-    height: 70vh;
-    border-radius: 4px;
+    height: 100%;
+    position: relative;
     overflow: hidden;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
 }
 
 .detail-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 10s ease;
-}
-
-.detail-image-container:hover .detail-image {
-    transform: scale(1.05);
+    filter: brightness(0.8);
 }
 
 .detail-text {
-    padding-top: 20px;
+    padding: 80px 100px;
+    overflow-y: auto;
+    /* Hide scrollbar but allow scroll */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
+.detail-text::-webkit-scrollbar { display: none; }
 
 #detail-title {
     font-family: var(--font-heading);
-    font-size: clamp(3rem, 5vw, 4.5rem);
-    line-height: 1.1;
-    margin-bottom: 0.5em;
+    font-size: 5rem;
+    line-height: 1;
+    margin-bottom: 2rem;
     color: var(--color-accent);
+    opacity: 0; /* Animated in JS */
+    transform: translateY(20px);
+    transition: all 0.8s 0.2s var(--ease-out-quart);
 }
 
 .detail-meta {
     display: flex;
-    gap: 20px;
-    margin-bottom: 40px;
-    font-size: 0.9rem;
-    letter-spacing: 0.1em;
+    gap: 30px;
+    margin-bottom: 4rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--color-text-secondary);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding-bottom: 20px;
+    color: var(--color-text-muted);
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 20px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.8s 0.3s var(--ease-out-quart);
+}
+
+#detail-description, #detail-significance, .user-contributions {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.8s 0.4s var(--ease-out-quart);
+}
+
+body.detail-active #detail-title,
+body.detail-active .detail-meta,
+body.detail-active #detail-description,
+body.detail-active #detail-significance,
+body.detail-active .user-contributions {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 #detail-description {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     line-height: 1.8;
-    margin-bottom: 40px;
-    color: var(--color-text-primary);
+    color: var(--color-text-secondary);
+    margin-bottom: 3rem;
+    max-width: 800px;
 }
 
 #detail-significance {
     font-family: var(--font-heading);
     font-style: italic;
-    font-size: 1.4rem;
-    line-height: 1.6;
-    color: #fff;
-    border-left: 3px solid var(--color-accent);
-    padding-left: 20px;
-    margin-bottom: 40px;
+    font-size: 1.8rem;
+    color: var(--color-text-primary);
+    margin-bottom: 4rem;
+    padding-left: 2rem;
+    border-left: 2px solid var(--color-accent);
 }
 
 #detail-link {
     display: inline-block;
+    margin-bottom: 5rem;
     color: var(--color-accent);
     text-decoration: none;
-    border-bottom: 1px solid transparent;
-    transition: border-color 0.3s;
+    border-bottom: 1px solid var(--color-accent);
+    padding-bottom: 5px;
     font-size: 0.9rem;
     text-transform: uppercase;
     letter-spacing: 0.1em;
+    transition: color 0.3s;
 }
 
 #detail-link:hover {
-    border-bottom-color: var(--color-accent);
+    color: #fff;
+    border-color: #fff;
 }
 
-/* === USER CONTRIBUTIONS === */
-.user-contributions {
-    margin-top: 60px;
-    padding-top: 40px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
+/* === USER CONTRIBUTIONS & FORM (POLISHED) === */
 .user-contributions h3 {
     font-family: var(--font-heading);
     font-size: 2rem;
-    margin-bottom: 30px;
+    margin-bottom: 2rem;
     color: var(--color-text-primary);
 }
 
-#contributions-container {
-    display: grid;
-    gap: 20px;
-    margin-bottom: 40px;
-}
-
-.story {
-    background: var(--color-glass);
+#contributions-container .story {
+    background: rgba(255, 255, 255, 0.02);
     padding: 20px;
-    border-radius: 8px;
-    border: 1px solid var(--color-glass-border);
+    margin-bottom: 20px;
+    border-left: 2px solid rgba(255, 255, 255, 0.1);
 }
 
-.story h4 {
+#contributions-container .story h4 {
     color: var(--color-accent);
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     font-family: var(--font-heading);
 }
 
-.story p {
+#contributions-container .story p {
     font-size: 0.95rem;
-    color: var(--color-text-secondary);
     line-height: 1.6;
+    color: var(--color-text-secondary);
 }
 
 #contribution-form {
-    background: rgba(255, 255, 255, 0.03);
-    padding: 30px;
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+    margin-top: 3rem;
+    padding: 2.5rem;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.01) 0%, rgba(255, 255, 255, 0.03) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+    backdrop-filter: blur(5px);
 }
 
 #contribution-form h4 {
-    margin-bottom: 10px;
     font-family: var(--font-heading);
-    font-size: 1.5rem;
+    color: var(--color-accent);
+    margin-bottom: 1.5rem;
+    font-size: 1.4rem;
+    letter-spacing: 0.02em;
 }
 
-#contribution-form input,
-#contribution-form textarea {
+/* Form Elements - World Class Polish */
+input[type="text"],
+input[type="url"],
+textarea {
+    width: 100%;
     background: rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 15px;
-    border-radius: 4px;
-    color: #fff;
+    border: 1px solid var(--color-glass-border);
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    color: var(--color-text-primary);
     font-family: var(--font-body);
-    transition: border-color 0.3s;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    border-radius: 2px;
 }
 
-#contribution-form input:focus,
-#contribution-form textarea:focus {
+input[type="text"]::placeholder,
+input[type="url"]::placeholder,
+textarea::placeholder {
+    color: var(--color-text-muted);
+    opacity: 0.7;
+}
+
+input[type="text"]:focus,
+input[type="url"]:focus,
+textarea:focus {
     outline: none;
     border-color: var(--color-accent);
+    background: rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 20px rgba(192, 160, 98, 0.1);
 }
 
-#contribution-form button {
-    background: var(--color-accent);
-    color: var(--color-bg-start);
-    padding: 15px;
-    border: none;
-    border-radius: 4px;
-    font-weight: 600;
+textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+button[type="submit"] {
+    background: transparent;
+    border: 1px solid var(--color-accent);
+    color: var(--color-accent);
+    padding: 14px 40px;
+    font-family: var(--font-heading);
+    font-size: 1rem;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    transition: background 0.3s, transform 0.2s;
+    letter-spacing: 0.2em;
+    cursor: pointer;
+    transition: all 0.4s var(--ease-out-quart);
+    margin-top: 10px;
+    position: relative;
+    overflow: hidden;
 }
 
-#contribution-form button:hover {
-    background: #fff;
+button[type="submit"]:hover {
+    background: var(--color-accent);
+    color: #000;
+    box-shadow: 0 0 30px var(--color-accent-glow);
     transform: translateY(-2px);
-}
-
-/* === ANIMATIONS === */
-@keyframes fadeSlideDown {
-    from { opacity: 0; transform: translateY(-30px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes orbit-system {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
 }
 
 /* === MOBILE HYPER-OPTIMIZATION === */
 @media (max-width: 900px) {
-    /* Change layout completely for mobile */
-    #orrery-view {
-        justify-content: flex-start;
-        padding-top: 10vh;
-        overflow-y: auto;
-        height: auto;
-        min-height: 100%;
-        display: block; /* Allow normal flow */
-        pointer-events: auto; /* Enable scrolling on mobile */
+    /* Hide desktop cursor elements */
+    #custom-cursor { display: none; }
+    body { cursor: auto; }
+
+    /* Hide Orrery, Show Mobile Cards */
+    #heritage-orrery {
+        display: none;
     }
 
+    /* Mobile Header */
     .main-header {
-        margin-bottom: 2rem;
-        transform: none;
-        animation: none;
-        padding: 0 20px;
+        position: relative;
+        top: 0;
+        margin-top: 15vh;
+        margin-bottom: 5vh;
+        text-align: left;
+        padding: 0 30px;
     }
 
     .main-header h1 {
-        font-size: 2.5rem;
+        font-size: 3rem;
     }
 
-    /* Disable the rotating orrery on mobile */
-    #heritage-orrery {
-        width: 100%;
-        height: auto;
-        max-width: none;
-        max-height: none;
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
-        animation: none;
-        padding: 0 20px 100px 20px; /* Padding for scroll */
-        gap: 15px;
-        transform: none !important; /* Override inline styles */
+    .main-header p {
+        letter-spacing: 0.2em;
     }
 
-    .orrery-core, .orbit-ring {
-        display: none; /* Hide the core and rings */
+    /* Mobile Cards Container */
+    #mobile-cards-view {
+        display: flex; /* We'll create this element in JS */
+        flex-direction: column; /* Vertical stack is often cleaner than horizontal on mobile if content is heavy, but prompt says "Card Stack" */
+        gap: 20px;
+        padding: 0 20px 100px 20px;
+        overflow-y: auto;
+        height: 60vh; /* Remaining height */
     }
 
-    /* Transform nodes into cards */
-    .site-node {
-        position: relative; /* Not absolute anymore */
-        width: 100%;
-        height: auto;
-        min-height: 80px;
-        transform: none !important; /* Override inline styles */
-        left: auto !important;
-        top: auto !important;
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 12px;
-        display: flex;
+    /* We will use a Horizontal Snap Scroll for "World Class" feel */
+    #mobile-cards-view {
+        flex-direction: row;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        height: 55vh;
+        padding: 0 30px;
+        gap: 20px;
         align-items: center;
-        justify-content: space-between;
-        padding: 20px;
-        box-shadow: none;
-        margin: 0 0 10px 0;
+        /* Hide scrollbar */
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+    #mobile-cards-view::-webkit-scrollbar { display: none; }
+
+    .mobile-card {
+        flex: 0 0 85%; /* Shows a bit of next card */
+        height: 100%;
+        scroll-snap-align: center;
+        border-radius: 20px;
+        overflow: hidden;
+        position: relative;
+        background-size: cover;
+        background-position: center;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        border: 1px solid rgba(255,255,255,0.1);
+        transition: transform 0.3s;
     }
 
-    .site-node:hover {
-        transform: scale(1.02) !important;
-        background: rgba(255, 255, 255, 0.1);
-        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    /* Interaction Hint */
+    .mobile-card:active {
+        transform: scale(0.98);
     }
 
-    /* Adjust label for card layout */
-    .node-label {
-        position: static;
-        transform: none;
-        opacity: 1;
-        background: transparent;
-        border: none;
-        font-size: 1.1rem;
-        pointer-events: auto;
-        padding: 0;
-        text-align: left;
+    .mobile-card-content {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 30px;
+        background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
     }
 
-    /* Add an arrow icon via CSS */
-    .site-node::after {
-        content: '→';
-        position: static;
-        width: auto;
-        height: auto;
-        border: none;
-        opacity: 0.5;
-        font-size: 1.2rem;
+    .mobile-card h3 {
+        font-family: var(--font-heading);
+        font-size: 2rem;
+        color: #fff;
+        margin-bottom: 5px;
+    }
+
+    .mobile-card span {
         color: var(--color-accent);
-        transform: none;
-        border-radius: 0;
-    }
-    .site-node:hover::after {
-        opacity: 1;
-        transform: translateX(5px);
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        letter-spacing: 0.1em;
     }
 
-    /* Map on Mobile */
+    /* Mobile Map */
     #map-container {
-        display: none; /* Hide map on initial mobile view to focus on list */
+        display: none; /* Map is too heavy for this specific "Card" view, or strictly desktop */
     }
 
-    /* Detail View Mobile */
+    /* Mobile Detail View (Bottom Sheet style) */
     .detail-content {
-        grid-template-columns: 1fr;
+        display: block;
         padding: 0;
-        gap: 0;
+        height: auto;
+        min-height: 100vh;
     }
 
     .detail-image-container {
+        height: 40vh;
         position: relative;
-        top: 0;
-        height: 50vh;
-        border-radius: 0;
-        box-shadow: none;
     }
 
     .detail-text {
-        padding: 30px 20px 80px 20px;
-        background: var(--color-bg-start);
+        padding: 40px 25px 100px 25px;
+        background: var(--color-bg-deep);
+        border-radius: 30px 30px 0 0;
         position: relative;
-        top: -20px; /* Overlap image slightly */
-        border-radius: 20px 20px 0 0;
-        box-shadow: 0 -10px 30px rgba(0,0,0,0.3);
+        top: -30px; /* Overlap */
+        box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
+    }
+
+    #detail-title {
+        font-size: 2.5rem;
     }
 
     .back-button {
         top: 20px;
         left: 20px;
-        background: rgba(0, 0, 0, 0.5);
+        right: auto;
+        background: rgba(0,0,0,0.5);
     }
 
-    body.detail-active #orrery-view {
-        display: none; /* Completely remove to prevent scroll issues */
+    /* Form Adjustment for Mobile */
+    #contribution-form {
+        padding: 1.5rem;
+    }
+
+    button[type="submit"] {
+        width: 100%;
     }
 }
