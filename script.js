@@ -15,9 +15,8 @@ document.addEventListener('DOMContentLoaded', () => {
             official_link: 'https://whc.unesco.org/en/list/216',
             description: 'A stunning example of Bulgarian Renaissance architecture, the Rila Monastery is the largest and most famous Eastern Orthodox monastery in Bulgaria. It has been a spiritual and cultural hub for centuries.',
             significance: 'The Rila Monastery is an outstanding example of the Bulgarian Renaissance, and it symbolizes the awareness of a Slavic cultural identity after centuries of occupation.',
-            image: 'https://placehold.co/1200x800/f3e7e9/3a3d40?text=Rila+Monastery',
-            gradient: 'linear-gradient(135deg, #f3e7e9 0%, #e3eeff 100%)',
-            svg: 'assets/svg/rila.svg',
+            image: 'https://images.unsplash.com/photo-1565099710373-c827376c2629?q=80&w=2671&auto=format&fit=crop', // Better placeholder or stick to existing
+            gradient: 'linear-gradient(135deg, #1a1a1a 0%, #2c3e50 100%)',
             coords: [42.1333, 23.3403]
         },
         {
@@ -28,9 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
             official_link: 'https://whc.unesco.org/en/list/42',
             description: 'Located on the outskirts of Sofia, the Boyana Church consists of three buildings. The second church, built in the 13th century, contains some of the most complete and perfectly preserved examples of medieval Eastern European art.',
             significance: 'The Boyana Church is a group of three churches, renowned worldwide for its 13th-century frescoes, which are an exceptional testimony of the human creative genius of the peoples of South-Eastern Europe.',
-            image: 'https://placehold.co/1200x800/e6e9f0/3a3d40?text=Boyana+Church',
-            gradient: 'linear-gradient(135deg, #e6e9f0 0%, #eef1f5 100%)',
-            svg: 'assets/svg/boyana.svg',
+            image: 'https://images.unsplash.com/photo-1604586940860-262105151e36?q=80&w=2670&auto=format&fit=crop',
+            gradient: 'linear-gradient(135deg, #232526 0%, #414345 100%)',
             coords: [42.6458, 23.2667]
         },
         {
@@ -41,9 +39,8 @@ document.addEventListener('DOMContentLoaded', () => {
             official_link: 'https://whc.unesco.org/en/list/45',
             description: 'A complex of rock-hewn churches, chapels and monasteries near the village of Ivanovo. The complex is noted for its beautiful and well-preserved medieval frescoes from the 13th and 14th centuries.',
             significance: 'The Rock-Hewn Churches of Ivanovo are a complex of rock-hewn churches, chapels, monasteries and cells, which represent the work of the Hesychasts, who practised a form of asceticism.',
-            image: 'https://placehold.co/1200x800/f5f7fa/3a3d40?text=Ivanovo',
-            gradient: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
-            svg: 'assets/svg/ivanovo.svg',
+            image: 'https://images.unsplash.com/photo-1596423985794-22b270a3c20c?q=80&w=2670&auto=format&fit=crop',
+            gradient: 'linear-gradient(135deg, #2b5876 0%, #4e4376 100%)',
             coords: [43.7000, 25.9833]
         },
         {
@@ -54,9 +51,8 @@ document.addEventListener('DOMContentLoaded', () => {
             official_link: 'https://whc.unesco.org/en/list/44',
             description: 'Discovered in 1944, this tomb dates from the Hellenistic period, around the end of the 4th century BC. Its narrow corridor and round burial chamber are decorated with murals representing Thracian burial rituals and culture.',
             significance: 'The Thracian Tomb of Kazanlak is a unique aesthetic and artistic masterpiece, a masterpiece of the Thracian creative spirit. The monument is the only one of its kind anywhere in the world.',
-            image: 'https://placehold.co/1200x800/fde4e1/3a3d40?text=Kazanlak+Tomb',
-            gradient: 'linear-gradient(135deg, #fde4e1 0%, #e6d1d1 100%)',
-            svg: 'assets/svg/thracian.svg',
+            image: 'https://images.unsplash.com/photo-1627920769837-581335d8864f?q=80&w=2669&auto=format&fit=crop',
+            gradient: 'linear-gradient(135deg, #3a1c1c 0%, #1e130c 100%)',
             coords: [42.6242, 25.3925]
         },
         {
@@ -67,9 +63,8 @@ document.addEventListener('DOMContentLoaded', () => {
             official_link: 'https://whc.unesco.org/en/list/225',
             description: 'Encompassing a vast area of the Pirin Mountains, the park is known for its limestone karst landscapes, glacial lakes, waterfalls, caves, and coniferous forests. It is a sanctuary for diverse alpine flora and fauna.',
             significance: "Pirin National Park is a testimony to the evolutionary history of the Balkan Peninsula's flora and fauna, and it is an area of outstanding natural beauty.",
-            image: 'https://placehold.co/1200x800/e0c3fc/3a3d40?text=Pirin+National+Park',
-            gradient: 'linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%)',
-            svg: 'assets/svg/pirin.svg',
+            image: 'https://images.unsplash.com/photo-1566838031580-00d984cf8224?q=80&w=2670&auto=format&fit=crop',
+            gradient: 'linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%)',
             coords: [41.7650, 23.4180]
         },
         {
@@ -80,9 +75,8 @@ document.addEventListener('DOMContentLoaded', () => {
             official_link: 'https://whc.unesco.org/en/list/217',
             description: 'Situated on a rocky peninsula on the Black Sea, Nesebar is a rich city-museum defined by more than three millennia of history. The city\'s architecture showcases its evolution from a Thracian settlement to a major Byzantine hub.',
             significance: 'The Ancient City of Nessebar is an outstanding testimony of multilayered cultural and historical heritage. It is a place where many civilizations left their tangible traces.',
-            image: 'https://placehold.co/1200x800/f6d365/3a3d40?text=Nesebar',
-            gradient: 'linear-gradient(135deg, #f6d365 0%, #fda085 100%)',
-            svg: 'assets/svg/nesebar.svg',
+            image: 'https://images.unsplash.com/photo-1565780362835-13174431e67c?q=80&w=2670&auto=format&fit=crop',
+            gradient: 'linear-gradient(135deg, #141e30 0%, #243b55 100%)',
             coords: [42.6592, 27.7350]
         },
         {
@@ -93,9 +87,8 @@ document.addEventListener('DOMContentLoaded', () => {
             official_link: 'https://whc.unesco.org/en/list/359',
             description: 'Discovered in 1982, this 3rd-century BC Thracian tomb reflects the fundamental structural principles of Thracian cult buildings. The tomb has a unique architectural decor, with polychrome half-human, half-plant caryatids and painted murals.',
             significance: "The Thracian Tomb of Sveshtari is a unique monument of Thracian art, with its remarkable architecture and its rich sculptural and painted decoration.",
-            image: 'https://placehold.co/1200x800/c4c5c7/3a3d40?text=Sveshtari+Tomb',
-            gradient: 'linear-gradient(to top, #c4c5c7 0%, #dcdddf 52%, #ebebeb 100%)',
-            svg: 'assets/svg/placeholder.svg',
+            image: 'https://images.unsplash.com/photo-1598341856149-a29d10e54917?q=80&w=2670&auto=format&fit=crop',
+            gradient: 'linear-gradient(to top, #1e1e1e 0%, #3d332b 100%)',
             coords: [43.745, 26.765]
         }
     ];
@@ -107,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const body = document.body;
     const backgroundCanvas = document.querySelector('.background-canvas');
     const backButton = document.querySelector('.back-button');
-    const defaultGradient = 'linear-gradient(135deg, #e0eafc, #cfdef3)';
+    const defaultGradient = 'radial-gradient(circle at center, #1e293b, #0f172a)';
 
     // --- Initialization ---
     function init() {
@@ -117,13 +110,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Create Orrery Nodes ---
     function createSiteNodes() {
-        const radius = 170; // Orbit radius
+        // Create decorative rings
+        const radii = [130, 210, 280];
+        radii.forEach(r => {
+            const ring = document.createElement('div');
+            ring.className = 'orbit-ring';
+            ring.style.width = (r * 2) + 'px';
+            ring.style.height = (r * 2) + 'px';
+            orrery.appendChild(ring);
+        });
+
+        const orbitRadius = 170; // Main Orbit radius
         const angleStep = (2 * Math.PI) / SITES_DATA.length;
 
         SITES_DATA.forEach((site, index) => {
             const angle = angleStep * index;
-            const x = radius * Math.cos(angle);
-            const y = radius * Math.sin(angle);
+            const x = orbitRadius * Math.cos(angle);
+            const y = orbitRadius * Math.sin(angle);
 
             const node = document.createElement('button');
             node.className = 'site-node';
@@ -191,8 +194,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Event Listeners ---
     function addEventListeners() {
         orrery.addEventListener('click', (e) => {
-            if (e.target.classList.contains('site-node')) {
-                window.unescoApp.showDetailView(e.target.dataset.id);
+            const node = e.target.closest('.site-node');
+            if (node) {
+                window.unescoApp.showDetailView(node.dataset.id);
             }
         });
 
@@ -216,13 +220,9 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('detail-link').href = site.official_link;
 
         const detailImage = document.getElementById('detail-image');
+        // Use high-res images if available, otherwise placeholder
         detailImage.src = site.image;
         detailImage.alt = `A view of the ${site.name}`;
-        detailImage.onerror = () => {
-            // In case the placeholder service fails, fallback to a local SVG
-            detailImage.src = 'assets/svg/placeholder.svg';
-            detailImage.alt = `Placeholder image for the ${site.name}`;
-        };
 
         // Update background
         backgroundCanvas.style.background = site.gradient;
@@ -230,12 +230,17 @@ document.addEventListener('DOMContentLoaded', () => {
         // Add class to trigger transition
         body.classList.add('detail-active');
 
-        // Show map
+        // Show map (but styled nicely via CSS)
         const mapContainer = document.getElementById('map-container');
-        mapContainer.style.opacity = 1;
-        mapContainer.style.transform = 'translateY(0)';
+        // We let CSS handle the transition logic for map-container via detail-active class
+        // But the current JS sets opacity manually, which might conflict.
+        // Let's remove manual style setting here and rely on CSS classes if possible.
+        // However, map.js logic might rely on map being visible for size calculation.
+        // Just in case, let's keep it but ensure it matches CSS.
+        // Actually, let's REMOVE the manual style manipulation for map container here
+        // and let CSS handle it via .detail-active
 
-        // Render stories
+        // renderStories(siteId);
         renderStories(siteId);
     }
 
@@ -246,10 +251,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Remove class to reverse transition
         body.classList.remove('detail-active');
 
-        // Hide map
-        const mapContainer = document.getElementById('map-container');
-        mapContainer.style.opacity = 0;
-        mapContainer.style.transform = 'translateY(100px)';
+        // Map hiding is also handled by CSS now (hopefully)
     }
 
     init();
