@@ -1,4 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
-    <rect width="200" height="200" fill="#e6e9f0"/>
-    <circle cx="100" cy="100" r="50" fill="#eef1f5"/>
+    <style>
+        .gold { fill: #FFD700; }
+        .slate { fill: #2F4F4F; }
+        .glass { fill: rgba(255, 255, 255, 0.1); }
+    </style>
+    <rect width="200" height="200" class="slate"/>
+    <g class="glass" transform="translate(20 20)">
+        <rect x="10" y="70" width="140" height="100" class="gold" />
+        <path d="M 10 70 L 80 20 L 150 70 Z" class="gold" />
+        <circle cx="80" cy="50" r="15" class="slate" />
+        <circle cx="80" cy="50" r="10" class="gold" />
+        <rect x="65" y="90" width="30" height="60" class="slate" />
+    </g>
 </svg>
