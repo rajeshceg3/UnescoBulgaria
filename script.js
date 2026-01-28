@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
             official_link: 'https://whc.unesco.org/en/list/216',
             description: 'A stunning example of Bulgarian Renaissance architecture, the Rila Monastery is the largest and most famous Eastern Orthodox monastery in Bulgaria. It has been a spiritual and cultural hub for centuries.',
             significance: 'The Rila Monastery is an outstanding example of the Bulgarian Renaissance, and it symbolizes the awareness of a Slavic cultural identity after centuries of occupation.',
-            image: 'https://upload.wikimedia.org/wikipedia/commons/8/8e/Rila_Monastery_%2848859943232%29.jpg',
+            image: 'assets/svg/rila.svg',
             gradient: 'linear-gradient(135deg, #1a1a1a 0%, #2c3e50 100%)',
             coords: [42.1333, 23.3403]
         },
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
             official_link: 'https://whc.unesco.org/en/list/42',
             description: 'Located on the outskirts of Sofia, the Boyana Church consists of three buildings. The second church, built in the 13th century, contains some of the most complete and perfectly preserved examples of medieval Eastern European art.',
             significance: 'The Boyana Church is a group of three churches, renowned worldwide for its 13th-century frescoes, which are an exceptional testimony of the human creative genius of the peoples of South-Eastern Europe.',
-            image: 'https://upload.wikimedia.org/wikipedia/commons/e/e5/Boyana_Church_E1.jpg',
+            image: 'assets/svg/boyana.svg',
             gradient: 'linear-gradient(135deg, #232526 0%, #414345 100%)',
             coords: [42.6458, 23.2667]
         },
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
             official_link: 'https://whc.unesco.org/en/list/45',
             description: 'A complex of rock-hewn churches, chapels and monasteries near the village of Ivanovo. The complex is noted for its beautiful and well-preserved medieval frescoes from the 13th and 14th centuries.',
             significance: 'The Rock-Hewn Churches of Ivanovo are a complex of rock-hewn churches, chapels, monasteries and cells, which represent the work of the Hesychasts, who practised a form of asceticism.',
-            image: 'https://upload.wikimedia.org/wikipedia/commons/e/e0/Rock-hewn_Churches_of_Ivanovo_-_Entrance_of_the_Church.jpg',
+            image: 'assets/svg/ivanovo.svg',
             gradient: 'linear-gradient(135deg, #2b5876 0%, #4e4376 100%)',
             coords: [43.7000, 25.9833]
         },
@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
             official_link: 'https://whc.unesco.org/en/list/44',
             description: 'Discovered in 1944, this tomb dates from the Hellenistic period, around the end of the 4th century BC. Its narrow corridor and round burial chamber are decorated with murals representing Thracian burial rituals and culture.',
             significance: 'The Thracian Tomb of Kazanlak is a unique aesthetic and artistic masterpiece, a masterpiece of the Thracian creative spirit. The monument is the only one of its kind anywhere in the world.',
-            image: 'https://upload.wikimedia.org/wikipedia/commons/e/e0/The_thracian_tomb_in_Kazanlak_from_outside.jpg',
+            image: 'assets/svg/thracian.svg',
             gradient: 'linear-gradient(135deg, #3a1c1c 0%, #1e130c 100%)',
             coords: [42.6242, 25.3925]
         },
@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
             official_link: 'https://whc.unesco.org/en/list/225',
             description: 'Encompassing a vast area of the Pirin Mountains, the park is known for its limestone karst landscapes, glacial lakes, waterfalls, caves, and coniferous forests. It is a sanctuary for diverse alpine flora and fauna.',
             significance: "Pirin National Park is a testimony to the evolutionary history of the Balkan Peninsula's flora and fauna, and it is an area of outstanding natural beauty.",
-            image: 'https://upload.wikimedia.org/wikipedia/commons/2/2e/Pirin_Mountain.jpg',
+            image: 'assets/svg/pirin.svg',
             gradient: 'linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%)',
             coords: [41.7650, 23.4180]
         },
@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
             official_link: 'https://whc.unesco.org/en/list/217',
             description: 'Situated on a rocky peninsula on the Black Sea, Nesebar is a rich city-museum defined by more than three millennia of history. The city\'s architecture showcases its evolution from a Thracian settlement to a major Byzantine hub.',
             significance: 'The Ancient City of Nessebar is an outstanding testimony of multilayered cultural and historical heritage. It is a place where many civilizations left their tangible traces.',
-            image: 'https://upload.wikimedia.org/wikipedia/commons/e/e1/The_Old_Town%2C_Nessebar%2C_Bulgaria.jpg',
+            image: 'assets/svg/nesebar.svg',
             gradient: 'linear-gradient(135deg, #141e30 0%, #243b55 100%)',
             coords: [42.6592, 27.7350]
         },
@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
             official_link: 'https://whc.unesco.org/en/list/359',
             description: 'Discovered in 1982, this 3rd-century BC Thracian tomb reflects the fundamental structural principles of Thracian cult buildings. The tomb has a unique architectural decor, with polychrome half-human, half-plant caryatids and painted murals.',
             significance: "The Thracian Tomb of Sveshtari is a unique monument of Thracian art, with its remarkable architecture and its rich sculptural and painted decoration.",
-            image: 'https://upload.wikimedia.org/wikipedia/commons/c/c8/Thomb-Sveshtari-2.jpg',
+            image: 'assets/svg/thracian.svg',
             gradient: 'linear-gradient(to top, #1e1e1e 0%, #3d332b 100%)',
             coords: [43.745, 26.765]
         }
