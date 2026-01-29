@@ -1,4 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
-    <rect width="200" height="200" fill="#e0c3fc"/>
-    <path d="M50 150 L100 50 L150 150 Z" fill="#8ec5fc"/>
+    <style>
+        .gold { fill: #FFD700; }
+        .slate { fill: #2F4F4F; }
+        .mountain { fill: #708090; }
+        .glass { fill: rgba(255, 255, 255, 0.1); }
+    </style>
+    <rect width="200" height="200" class="slate"/>
+    <g class="glass" transform="translate(5 5)">
+        <path d="M 20 180 L 80 50 L 120 120 L 180 30 L 180 180 Z" class="mountain" />
+        <path d="M 80 50 L 75 55 L 85 55 Z" class="gold" />
+        <path d="M 180 30 L 175 35 L 185 35 Z" class="gold" />
+        <circle cx="150" cy="60" r="15" class="gold" />
+    </g>
 </svg>

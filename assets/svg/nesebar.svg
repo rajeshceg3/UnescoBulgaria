@@ -1,4 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
-    <rect width="200" height="200" fill="#f6d365"/>
-    <path d="M20 80 H180 V120 H20 Z" fill="#fda085"/>
+    <style>
+        .gold { fill: #FFD700; }
+        .slate { fill: #2F4F4F; }
+        .sea { fill: #4682B4; }
+        .glass { fill: rgba(255, 255, 255, 0.1); }
+    </style>
+    <rect width="200" height="200" class="slate"/>
+    <g class="glass" transform="translate(5 5)">
+        <path d="M 20 180 C 60 140, 140 140, 180 180 Z" class="sea" />
+        <path d="M 50 150 C 50 120, 150 120, 150 150 L 140 150 L 140 100 L 120 80 L 100 100 L 100 150 L 80 150 L 80 90 L 60 110 L 60 150 Z" class="gold" />
+        <rect x="85" y="110" width="30" height="40" class="slate" />
+        <circle cx="90" cy="95" r="5" class="sea" />
+        <circle cx="110" cy="90" r="5" class="sea" />
+    </g>
 </svg>
