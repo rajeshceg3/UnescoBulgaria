@@ -182,7 +182,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Create Mobile Cards ---
     function createMobileCards() {
         SITES_DATA.forEach(site => {
-            const card = document.createElement('div');
+            const card = document.createElement('button');
+            card.type = 'button';
+            card.setAttribute('aria-label', site.name);
             card.className = 'mobile-card';
             card.dataset.id = site.id;
             card.style.backgroundImage = `url(${site.image})`;
@@ -204,6 +206,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const contributionForm = document.getElementById('contribution-form');
     let currentSiteId = null;
+    let detailOpener = null;
+    const detailView = document.getElementById('detail-view');
+    detailView.inert = true;
 
     // --- Sanitization ---
     function sanitize(str) {
@@ -213,13 +218,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- Community Stories ---
+    function readStories(siteId) {
+        try { const notes = JSON.parse(localStorage.getItem(`stories_${siteId}`)); return Array.isArray(notes) ? notes : []; }
+        catch { return []; }
+    }
     function renderStories(siteId) {
         const container = document.getElementById('contributions-container');
-        const stories = JSON.parse(localStorage.getItem(`stories_${siteId}`)) || [];
+        const stories = readStories(siteId);
         container.innerHTML = '';
 
         if (stories.length === 0) {
-            container.innerHTML = '<p style="color:var(--color-text-muted)">Be the first to share a story about this place!</p>';
+            container.innerHTML = '<p style="color:var(--color-text-muted)">No notes saved for this place on this device.</p>';
             return;
         }
 
@@ -242,9 +251,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const image = document.getElementById('contribution-image').value;
 
         const newStory = { name, story, image };
-        const stories = JSON.parse(localStorage.getItem(`stories_${currentSiteId}`)) || [];
+        const stories = readStories(currentSiteId);
         stories.push(newStory);
-        localStorage.setItem(`stories_${currentSiteId}`, JSON.stringify(stories));
+        try { localStorage.setItem(`stories_${currentSiteId}`, JSON.stringify(stories)); }
+        catch { document.getElementById('note-status').textContent = 'This browser could not save the note. Your text is still here to copy.'; return; }
+        document.getElementById('note-status').textContent = 'Note saved on this device.';
 
         renderStories(currentSiteId);
         contributionForm.reset();
@@ -261,6 +272,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         backButton.addEventListener('click', window.unescoApp.hideDetailView);
         contributionForm.addEventListener('submit', handleFormSubmit);
+        document.addEventListener('keydown', e => {
+            if (!body.classList.contains('detail-active')) return;
+            if (e.key === 'Escape') window.unescoApp.hideDetailView();
+            if (e.key === 'Tab') {
+                const targets = [...detailView.querySelectorAll('button,a[href],input,textarea')];
+                const first = targets[0], last = targets[targets.length - 1];
+                if (e.shiftKey && document.activeElement === first) {e.preventDefault();last.focus();}
+                else if (!e.shiftKey && document.activeElement === last) {e.preventDefault();first.focus();}
+            }
+        });
     }
     
     // --- View Transitions ---
@@ -268,6 +289,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const site = SITES_DATA.find(s => s.id === siteId);
         if (!site) return;
 
+        if (!body.classList.contains('detail-active')) detailOpener = document.activeElement;
         currentSiteId = siteId;
 
         // Populate detail view
@@ -280,18 +302,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const detailImage = document.getElementById('detail-image');
         detailImage.src = site.image;
-        detailImage.alt = `A view of the ${site.name}`;
+        detailImage.alt = `Illustration of ${site.name}`;
 
         // Update background
         backgroundCanvas.style.background = site.gradient;
         
         // Add class to trigger transition
+        detailView.inert = false;
+        document.getElementById('orrery-view').inert = true;
+        detailView.scrollTop = 0;
         body.classList.add('detail-active');
+        backButton.focus();
 
         // Scroll detail view to top
         const detailText = document.querySelector('.detail-text');
         if (detailText) detailText.scrollTop = 0;
 
+        document.getElementById('note-status').textContent = '';
         renderStories(siteId);
     }
 
@@ -301,6 +328,9 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Remove class to reverse transition
         body.classList.remove('detail-active');
+        detailView.inert = true;
+        document.getElementById('orrery-view').inert = false;
+        if (detailOpener?.isConnected) detailOpener.focus();
     }
 
     init();
