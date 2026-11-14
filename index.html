@@ -32,7 +32,7 @@
         <section id="orrery-view">
             <header class="main-header">
                 <h1>Bulgarian Heritage</h1>
-                <p>A UNESCO COLLECTION</p>
+                <p>A UNESCO COLLECTION</p><p class="gallery-hint">7 places · Swipe to explore</p>
             </header>
             <div id="heritage-orrery">
                 <div class="orrery-core"></div>
@@ -48,7 +48,7 @@
         </section>
 
         <!-- Detail view, hidden by default -->
-        <section id="detail-view">
+        <section id="detail-view" role="dialog" aria-modal="true" aria-labelledby="detail-title">
             <button class="back-button" aria-label="Go back to selection">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
             </button>
@@ -69,14 +69,14 @@
                 </div>
             </div>
             <div class="user-contributions">
-                <h3>Community Stories</h3>
+                <h3>Your field notes</h3><p class="notes-explainer">Saved in this browser only. Nothing is posted or shared.</p>
                 <div id="contributions-container"></div>
                 <form id="contribution-form">
-                    <h4>Share Your Story</h4>
-                    <input type="text" id="contribution-name" placeholder="Your Name" required>
-                    <textarea id="contribution-story" placeholder="Your Story" required></textarea>
-                    <input type="url" id="contribution-image" placeholder="Image URL (optional)">
-                    <button type="submit">Share</button>
+                    <h4>Add a note</h4>
+                    <label for="contribution-name">Name</label><input type="text" id="contribution-name" placeholder="Your Name" required>
+                    <label for="contribution-story">Note</label><textarea id="contribution-story" placeholder="Your Story" required></textarea>
+                    <label for="contribution-image">Image URL (optional)</label><input type="url" id="contribution-image" placeholder="Image URL (optional)">
+                    <button type="submit">Save on this device</button><p id="note-status" role="status"></p>
                 </form>
             </div>
         </section>
